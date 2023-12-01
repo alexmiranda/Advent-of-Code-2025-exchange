@@ -76,7 +76,6 @@ public class Y23Day01Visualization {
 	public static void initNumericNumberWords() {
 		NUMBER_WORD_MAPPING = new HashMap<>();
 		for (int i=0; i<10; i++) {
-			NUMBER_WORD_MAPPING.put(NUMBER_STRINGS[i], i);
 			NUMBER_WORD_MAPPING.put(Integer.toString(i), i);
 		}
 	}
