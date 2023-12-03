@@ -34,10 +34,10 @@ public class Y23Day02Visualization {
 	static record DiceCount(int cnt, DCOLOR color) {
 		@Override public String toString() { return cnt + " " +color; }
 
-		public Object toColoredString(Map<DCOLOR, Integer> maxDicesPerColor) {
+		public Object toColoredString(Map<DCOLOR, Integer> maxDicesPerColor, String highlightColor, String normalColor) {
 			String result = toString();
 			if (cnt > maxDicesPerColor.get(color)) {
-				result = output.color("red") + result + output.color("gray");
+				result = highlightColor + result + normalColor;
 			}
 			return result;
 		}
@@ -63,7 +63,7 @@ public class Y23Day02Visualization {
 			}
 			return result.toString();
 		}
-		public String  toColoredString(Map<DCOLOR, Integer> maxDicesPerColor) {
+		public String  toColoredString(Map<DCOLOR, Integer> maxDicesPerColor, String highlightColor, String normalColor) {
 			StringBuilder result = new StringBuilder();
 			result.append("Game ").append(Integer.toString(gameId)).append(": ");
 			String seperatorSets = "";
@@ -74,7 +74,7 @@ public class Y23Day02Visualization {
 				for (DiceCount showDiceCount:shownDiceSet) {
 					result.append(seperatorCount);
 					seperatorCount = ", ";
-					result.append(showDiceCount.toColoredString(maxDicesPerColor));
+					result.append(showDiceCount.toColoredString(maxDicesPerColor, highlightColor, normalColor));
 				}
 			}
 			return result.toString();
@@ -176,7 +176,7 @@ public class Y23Day02Visualization {
 		}
 		output.addStep(show(outputLines, inputLines));
 		for (InputData data:new InputProcessor(inputFile)) {
-			String line = data.toColoredString(maxDicesPerColor);
+			String line = data.toColoredString(maxDicesPerColor, output.style("bred"), output.color("gray"));
 			String orig = inputLines.remove(0);
 			boolean valid = orig.equals(line);
 			line = line + spaces(maxLineLength-orig.length()+3) + output.color("green");
@@ -197,7 +197,7 @@ public class Y23Day02Visualization {
 
 	private static String show(List<String> outputLines, List<String> inputLines) {
 		StringBuilder result = new StringBuilder();
-		result.append(output.color("gray"));
+		result.append(output.color("darkgray"));
 		for (String outputLine:outputLines) {
 			result.append(outputLine).append("\n");
 		}
@@ -232,7 +232,7 @@ public class Y23Day02Visualization {
 					maxDicesPerColor.put(dc.color, max);
 				}
 			}
-			String line = data.toColoredString(maxDicesPerColor);
+			String line = data.toColoredString(maxDicesPerColor, output.style("byellow"), output.color("darkgray"));
 			String orig = inputLines.remove(0);
 			boolean valid = orig.equals(line);
 			line = line + spaces(maxLineLength-orig.length()+3) + output.color("green");
@@ -242,7 +242,7 @@ public class Y23Day02Visualization {
 			int setValue = red * green * blue;
 			sumSetValues += setValue;
 			line += nLen(red,2)+" x "+nLen(green,2)+" x "+nLen(blue,2)+" = " + nLen(setValue,4) +"   "+ nLen(sumSetValues,6);
-			line = line + output.color("gray");
+			line = line + output.color("darkgray");
 			outputLines.add(line);
 			output.addStep(show(outputLines, inputLines));
 		}

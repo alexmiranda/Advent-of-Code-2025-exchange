@@ -28,7 +28,7 @@ import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
 
-class Y23GUIOutput02 {
+class Y23GUIOutput03 {
 
 	@SuppressWarnings("serial") public static class MyCaret extends BasicCaret {
 		@Override public void install(JTextComponent c) { return; }
@@ -53,7 +53,7 @@ class Y23GUIOutput02 {
     
     Timer timer;
     
-    public Y23GUIOutput02(String title, boolean buffered) {
+    public Y23GUIOutput03(String title, boolean buffered) {
     	this.textListe = new ArrayList<>();
     	this.currentText = -1;
     	this.buffered = buffered;
