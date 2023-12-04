@@ -190,7 +190,7 @@ public class Y23Day04Visualization {
 	}
 
 	private static String padLeft(String text, int len) {
-		return text + spaces(len-text.length());
+		return spaces(len-text.length()) + text;
 	}
 
 	private static String spaces(int n) {
@@ -206,19 +206,34 @@ public class Y23Day04Visualization {
 
 
 	public static void mainPart2(String inputFile) {
+	    vis = new Visualization("2023 Day 04 Part II", false);
 		Map<Integer, Long> cardNum2Factor = new HashMap<>();
+		
+		int maxLineLength = 0;
+		for (InputData data:new InputProcessor(inputFile)) {
+			String line = data.toString();
+			vis.addInput(line);
+			maxLineLength = Math.max(maxLineLength, line.length());
+		}
+		vis.show();
+		
 		long sumCards = 0;
 		for (InputData data:new InputProcessor(inputFile)) {
 			System.out.println(data);
 			int currentCardNum = data.cardnum;
 			long currentCardFactor = cardNum2Factor.getOrDefault(currentCardNum, 1L);
 			sumCards += currentCardFactor;
-			data.ownNums.retainAll(data.winNums);
-			int cntWins = data.ownNums.size();
+			HashSet<Integer> matchedNumbers = new HashSet<>(data.ownNums);
+			matchedNumbers.retainAll(data.winNums);
+			int cntWins = matchedNumbers.size();
 			System.out.println(currentCardFactor+" x Card "+currentCardNum+" wins "+cntWins);
 			for (int nextCardNum=currentCardNum+1; nextCardNum<=currentCardNum+cntWins; nextCardNum++) {
 				cardNum2Factor.put(nextCardNum, cardNum2Factor.getOrDefault(nextCardNum, 1L) + currentCardFactor);
 			}
+			String markedLine = data.toColoredString(matchedNumbers);
+			markedLine += vis.color("green") + " " + padLeft(cntWins, 2) + " " + padLeft("x"+currentCardFactor, 7) + " " + padLeft((int)sumCards, 9) + vis.color("gray");
+			vis.addOutput(markedLine);
+			vis.show();
 		}
 		System.out.println(sumCards);
 	}
