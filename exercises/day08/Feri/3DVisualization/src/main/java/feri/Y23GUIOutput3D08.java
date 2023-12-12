@@ -54,9 +54,9 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 
 
-public class GUIOutput3D extends Application {
+public class Y23GUIOutput3D08 extends Application {
 
-	static GUIOutput3D instance = null;
+	static Y23GUIOutput3D08 instance = null;
 	
 	public static class DDDObject {
 		String id;
@@ -115,7 +115,7 @@ public class GUIOutput3D extends Application {
 	double offsetZ;
 	double radiusScale;
 
-	public GUIOutput3D(String title) {
+	public Y23GUIOutput3D08(String title) {
 		this.title = title;
 		this.dddObjects = new ArrayList<>();
 		this.dddTitles = new ArrayList<>();
@@ -953,7 +953,7 @@ public class GUIOutput3D extends Application {
 	}
 
 	public static void main(String[] args) throws Exception {
-		GUIOutput3D output = new GUIOutput3D("GUIOutput3D Test");
+		Y23GUIOutput3D08 output = new Y23GUIOutput3D08("Y23GUIOutput3D08 Test");
 		output.setUseCachedNodes(true);
 		output.smaller();
 		

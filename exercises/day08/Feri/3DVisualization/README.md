@@ -8,7 +8,8 @@
 ## package
 
 ```
-cd 3DVisualization
-mvn package
+cd .../3DVisualization
+mvn clean
+mvn package 
 mvn javafx:run
 ```

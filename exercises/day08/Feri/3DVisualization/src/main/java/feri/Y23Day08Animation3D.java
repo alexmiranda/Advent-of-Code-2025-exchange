@@ -30,7 +30,7 @@ public class Y23Day08Animation3D {
 	
 	
 	
-	static GUIOutput3D output;
+	static Y23GUIOutput3D08 output;
 	/*
 	 *
 	 * LLR
@@ -250,7 +250,7 @@ public class Y23Day08Animation3D {
 			}
 		}
 		public void show3D() {
-			List<GUIOutput3D.DDDObject> points = new ArrayList<>();
+			List<Y23GUIOutput3D08.DDDObject> points = new ArrayList<>();
 			for (Node3D node:nodes3D.values()) {
 				String nodeName = node.name;
 				int type = 3;
@@ -267,10 +267,10 @@ public class Y23Day08Animation3D {
 				}
 				double boxSize = size*NET_SIZE_FACTOR;
 				double lineSize = 0.1*NET_SIZE_FACTOR;
-				GUIOutput3D.DDDObject point = new GUIOutput3D.DDDObject(node.name, node.pos.x, node.pos.y, node.pos.z, boxSize, type);
+				Y23GUIOutput3D08.DDDObject point = new Y23GUIOutput3D08.DDDObject(node.name, node.pos.x, node.pos.y, node.pos.z, boxSize, type);
 				points.add(point);
 				for (Node3D neighbour:node.neighbours) {
-					GUIOutput3D.DDDObject line = new GUIOutput3D.DDDLineObject(node.pos.x, node.pos.y, node.pos.z, neighbour.pos.x, neighbour.pos.y, neighbour.pos.z, lineSize, 30);
+					Y23GUIOutput3D08.DDDObject line = new Y23GUIOutput3D08.DDDLineObject(node.pos.x, node.pos.y, node.pos.z, neighbour.pos.x, neighbour.pos.y, neighbour.pos.z, lineSize, 30);
 					points.add(line);
 				}
 			}
@@ -479,7 +479,7 @@ public class Y23Day08Animation3D {
 		}
 		public void show3D() {
 			Set<String> currentNodeNames = currentNodes.stream().map(n->n.nodeName).collect(Collectors.toSet());
-			List<GUIOutput3D.DDDObject> points = new ArrayList<>();
+			List<Y23GUIOutput3D08.DDDObject> points = new ArrayList<>();
 			for (Node3D node:nodes3D.values()) {
 				String nodeName = node.name;
 				int type = 3;
@@ -496,10 +496,10 @@ public class Y23Day08Animation3D {
 				}
 				double boxSize = size*NET_SIZE_FACTOR;
 				double lineSize = 0.1*NET_SIZE_FACTOR;
-				GUIOutput3D.DDDObject point = new GUIOutput3D.DDDObject(node.name, node.pos.x, node.pos.y, node.pos.z, boxSize, type);
+				Y23GUIOutput3D08.DDDObject point = new Y23GUIOutput3D08.DDDObject(node.name, node.pos.x, node.pos.y, node.pos.z, boxSize, type);
 				points.add(point);
 				for (Node3D neighbour:node.neighbours) {
-					GUIOutput3D.DDDObject line = new GUIOutput3D.DDDLineObject(node.name+neighbour.name, node.pos.x, node.pos.y, node.pos.z, neighbour.pos.x, neighbour.pos.y, neighbour.pos.z, lineSize, 30);
+					Y23GUIOutput3D08.DDDObject line = new Y23GUIOutput3D08.DDDLineObject(node.name+neighbour.name, node.pos.x, node.pos.y, node.pos.z, neighbour.pos.x, neighbour.pos.y, neighbour.pos.z, lineSize, 30);
 					if ("CDBSDB".equals(line.id)) {
 						System.out.println("BREAK");
 					}
@@ -551,7 +551,7 @@ public class Y23Day08Animation3D {
 
 	
 	public static void mainPart1(String inputFile) {
-		output = new GUIOutput3D("Day 08 Part I");
+		output = new Y23GUIOutput3D08("Day 08 Part I");
 		output.setUseCachedNodes(true);
 		World world = new World();
 		for (InputData data:new InputProcessor(inputFile)) {
@@ -585,7 +585,7 @@ public class Y23Day08Animation3D {
 	
 	
 	public static void mainPart2(String inputFile) {
-		output = new GUIOutput3D("Day 08 Part II");
+		output = new Y23GUIOutput3D08("Day 08 Part II");
 		output.setUseCachedNodes(true);
 		World2 world2 = new World2();
 		for (InputData data:new InputProcessor(inputFile)) {
@@ -627,15 +627,15 @@ public class Y23Day08Animation3D {
 	public static void main(String[] args) throws FileNotFoundException, URISyntaxException {
 		URL url;
 		System.out.println("--- PART I ---");
-//		mainPart1("../advent-of-code-2023/exercises/day08/Feri/input-example.txt");
-//		mainPart1("../advent-of-code-2023/exercises/day08/Feri/input-example-2.txt");
-//		mainPart1("../advent-of-code-2023/exercises/day08/Feri/input.txt");               
+//		mainPart1("../input-example.txt");
+//		mainPart1("../input-example-2.txt");
+//		mainPart1("../input.txt");               
 		System.out.println("---------------");                           
 		System.out.println("--- PART II ---");
-//		mainPart2("../advent-of-code-2023/exercises/day08/Feri/input-example-3.txt");
-//		mainPart2("../advent-of-code-2023/exercises/day08/Feri/input.txt");
-		url = Y23Day08Animation3D.class.getResource("/aoc23day08/input.txt");
-		mainPart2(new File(url.toURI()).toString());		
+//		mainPart2("../input-example-3.txt");
+		mainPart2("../input.txt");
+//		url = Y23Day08Animation3D.class.getResource("/aoc23day08/input.txt");
+//		mainPart2(new File(url.toURI()).toString());		
 		
 		System.out.println("---------------");    //
 	}
