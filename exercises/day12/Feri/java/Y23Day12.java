@@ -1,6 +1,8 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -87,7 +89,7 @@ public class Y23Day12 {
 			return recursiveCountSolutions(0, 0, 0, "");
 		}
 
-		private long recursiveCountSolutions(int patternPos, int groupPos, int cntLastGroup, String debugging) {
+		protected long recursiveCountSolutions(int patternPos, int groupPos, int cntLastGroup, String debugging) {
 			if (patternPos == pattern.length) {
 				if ((groupPos == groups.length) && (cntLastGroup==0)) {
 //					System.out.println(debugging);
@@ -179,12 +181,31 @@ public class Y23Day12 {
 		}
 		return result;
 	}
-	
+
+	private static record State(int patternPos, int groupPos, int cntLastGroup) {}
+
+	public static class CachedBruteForceSolver extends BruteForceSolver {
+		private Map<State, Long> cache;
+		public CachedBruteForceSolver(String row) {
+			super(row);
+			cache = new HashMap<>();
+		}
+		@Override protected long recursiveCountSolutions(int patternPos, int groupPos, int cntLastGroup, String debug) {
+			State state = new State(patternPos, groupPos, cntLastGroup);
+			if (cache.containsKey(state)) {
+				return cache.get(state);
+			}
+			long result = super.recursiveCountSolutions(patternPos, groupPos, cntLastGroup, debug);
+			cache.put(state, result);
+			return result;
+		}
+	}
+
 	public static void mainPart2(String inputFile) {
 		long sumArrangements = 0;
 		for (InputData data:new InputProcessor(inputFile)) {
 			System.out.println(data);
-			BruteForceSolver bfs = new BruteForceSolver(replicate(data.row));
+			BruteForceSolver bfs = new CachedBruteForceSolver(replicate(data.row));
 			long solutions = bfs.countSolutions(replicate(data.damagedSpringGroups));
 			sumArrangements += solutions;
 			System.out.println("SOLUTIONS: "+solutions);
@@ -199,8 +220,8 @@ public class Y23Day12 {
 		mainPart1("exercises/day12/Feri/input.txt");               
 		System.out.println("---------------");                           
 		System.out.println("--- PART II ---");
-		mainPart2("exercises/day12/Feri/input-example.txt");
-//		mainPart2("exercises/day12/Feri/input.txt");              
+//		mainPart2("exercises/day12/Feri/input-example.txt");
+		mainPart2("exercises/day12/Feri/input.txt");              
 		System.out.println("---------------");    //
 	}
 	
