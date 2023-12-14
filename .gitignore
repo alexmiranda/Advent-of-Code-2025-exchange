@@ -8,3 +8,5 @@ exercises/day03/carlos/Day03
 /.idea/
 /out/
 *.iml
+.idea
+out
