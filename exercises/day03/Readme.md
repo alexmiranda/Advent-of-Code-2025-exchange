@@ -1,3 +1,3 @@
 # Day 3 Exercise
 
-* https://adventofcode.com/2022/day/3
+* https://adventofcode.com/2025/day/3

@@ -1,3 +1,3 @@
 # Day 7 Exercise
 
-* https://adventofcode.com/2022/day/7
+* https://adventofcode.com/2025/day/7

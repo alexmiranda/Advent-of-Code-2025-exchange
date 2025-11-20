@@ -1,3 +1,3 @@
 # Day 8 Exercise
 
-* https://adventofcode.com/2022/day/8
+* https://adventofcode.com/2025/day/8
