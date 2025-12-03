@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon Dec 01 06:00:00 2025
+Created on Tue Dec  2 06:05:05 2025
 @author: XaverX / Berthold Braun
-Advent of Code 2025 01
+Advent of Code 2025 02
 """
 
 # import sys
 # from datetime import datetime as DT
 import time as TI
 import itertools as IT
-# import regex as RX
+import regex as RX
 # import json as JS
 # import queue as QU
 # import random as RD
@@ -21,16 +21,9 @@ import itertools as IT
 
 
 INPUT = """\
-    L68
-    L30
-    R48
-    L5
-    R60
-    L55
-    L1
-    L99
-    R14
-    L82
+    11-22,95-115,998-1012,1188511880-1188511890,222220-222224,
+    1698522-1698528,446443-446449,38593856-38593862,565653-565659,
+    824824821-824824827,2121212118-2121212124
 """
 
 
@@ -40,9 +33,6 @@ this = 0
 
 # debug/logging ### False / True
 pdbg = True
-
-# number of ticks on the dial wheel
-DIAL = 100
 
 #
 
@@ -61,7 +51,7 @@ def ReadInputData() -> list:
                 if not (line:=L.strip()).startswith("#")
                 ]
     #
-    L = [(line[0], int(line[1:])) for line in IREAD]
+    L = sorted([tuple(map(int, V.split("-"))) for V in "".join(IREAD).split(",")])
     return L
 #
 
@@ -97,12 +87,15 @@ def main() -> int:
     print("."*60)
     t0 = TI.time()
     value = 0
-    start = 50
-    for dturn, ticks in data:
-        if dturn == "L": ticks = DIAL - ticks
-        start += ticks
-        start %= DIAL
-        if start == 0: value += 1
+    garbage = []
+    for lower, upper in data:
+        print(lower, upper)
+        for z in range(lower, upper+1):
+            Z = f"{z}"
+            if (length:=len(Z)) % 2 == 1: continue
+            length //= 2
+            if Z[:length] == Z[length:]: garbage.append(z)
+    value = sum(garbage)
     t1 = TI.time() - t0
     print(f" < A >  {value:10}{' '*30}{TimeFormat(t1)}\n{'.'*60}")
     #
@@ -113,22 +106,24 @@ def main() -> int:
     print("."*60)
     t0 = TI.time()
     value = 0
-    start = 50
-    for dturn, ticks in data:
-        if pdbg: print(f"{start:02}  {dturn:1} {ticks:4} ", end=" : ")
-        overt, ticks = divmod(ticks, DIAL) # get multiple turn arounds
-        if dturn == "L": # get underflow
-            if start > 0 and ticks > start: overt += 1
-            ticks = DIAL - ticks
-        if dturn == "R": # get overflow
-            if start + ticks > DIAL: overt += 1
-        if pdbg: print(f"{overt:2} ", end=" : ")
-        #
-        start += ticks
-        start %= DIAL
-        if start == 0: value += 1
-        value += overt
-        if pdbg: print(f" == {start:02}  {value:4}")
+    garbage = []
+    for lower, upper in data:
+        print("==>", lower, upper)
+        for z in range(lower, upper+1):
+            Z = f"{z}"
+            #
+            for length in range(1,6): # max length of number z is 10: so need 1,2,3,4,5
+                if (A:=Z[:length]) != Z[length:length+length]: continue
+                if len(Z) % length != 0: continue
+                c = len(Z) // length
+                print(z, length, c, A)
+                for i in range(2,c):
+                    if A != Z[i*length:(i+1)*length]: break
+                else:
+                    garbage.append(z)
+                    break
+
+    value = sum(garbage)
     #
     t2 = TI.time() - t0
     print(f" < B >  {value:10}{' '*30}{TimeFormat(t2)}\n{'.'*60}")
@@ -143,11 +138,10 @@ def main() -> int:
 
 
 if __name__ == '__main__':
-    # A: 1086
-    # B: 6268
+    # A: 52316131093
+    # B: 69564213293
     if pdbg: print("."*60)
     print(fname:=__file__.replace("\\", "/").rsplit("/")[-1].split(".")[0])
     main()
     if pdbg: print("."*60)
 ###
-
